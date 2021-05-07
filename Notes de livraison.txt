@@ -1,0 +1,45 @@
+NOTES DE LIVRAISON:
+-------------------
+
+1. Fonctionalités non implémentées:
+...................................
+
+	- Aucune fonctionalité manquante
+	
+2. Bugs connus:
+...............
+
+	- Aucun bug connus
+	
+3. Fonctionalités supplémentaires:
+..................................
+
+	- La vue edit book s'ouvre par un double click sur le book.
+	- Icone qui change pour le bouton return/undo.
+	- Icone qui change pour le bouton rent.
+	- Scroll bars et taille min de fenêtre pour ergonomie.
+	- Bouton cancel dans edit book se transforme en exit pour les non admins car il n'y a pas d'edit à annuler pour eux.
+	- Les ISBN doivent être compsés de 13 chiffres.
+	- Les autres champs on une longueur minimum de 3 characters.
+
+4. Infos supplémentaires sur les choix de design:
+.................................................
+
+	- Package Extended.WPF.Toolkit nécessaire pour la date des bookcopies.
+	- Vignette vue edit book dans une user control séparée de BookUC.
+	- Icones pour plusieurs boutons. Utilisation de l'enregistrement en tant que ressource.
+	- Rented by ne prend pas en compte ce qui est dans le panier, le bookcopy n'est attribué que au confirm du basket.
+	- Bouton cancel dans edit book se transforme en exit pour les non admins car il n'y a pas d'edit à annuler pour eux.
+	- Categories dans vue detail d'un livres sont triés.
+	- Le load d'images ne permet uniquement le load de fichiers .jpg .
+	
+	
+
+USERNAME	PASSWORD	ROLE
+--------    --------	----
+admin		admin		admin
+callum		callum		admin
+luis		luis		admin
+georges		password	member
+sandrine	password	member
+felicien	password	member

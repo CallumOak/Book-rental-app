@@ -1,0 +1,113 @@
+﻿using PRBD_Framework;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace prbd_1819_g20.Vue
+{
+    /// <summary>
+    /// Logique d'interaction pour BooksUC.xaml
+    /// </summary>
+    public partial class BooksUC :  UserControlBase
+    {
+        
+
+        private Category currentCategory;
+        public Category CurrentCategory
+        {
+            get => currentCategory;
+            set => SetProperty<Category>(ref currentCategory, value, ApplyFilterAction);
+        }
+
+        private string filter;
+        public string Filter
+        {
+            get => filter;
+            set => SetProperty<string>(ref filter, value, ApplyFilterAction);
+        }
+
+        public ICommand ClearFilter { get; set; }
+        public ICommand NewBook { get; set; }
+          
+        private ObservableCollection<Book> books;
+        public ObservableCollection<Book> Books
+        {
+            get => books;
+            set => SetProperty<ObservableCollection<Book>>(ref books, value);
+        }
+        private ObservableCollection<Category> categories;
+        public ObservableCollection<Category> Categories
+        {
+            get => categories;
+            set => SetProperty<ObservableCollection<Category>>(ref categories, value);
+        }
+        public BooksUC()
+        {
+            InitializeComponent();
+            if (DesignerProperties.GetIsInDesignMode(this)) return;
+            DataContext = this;
+            
+            Books = new ObservableCollection<Book>(App.Model.Books);
+            Categories = new ObservableCollection<Category>(App.Model.Categories);
+            ClearFilter = new RelayCommand(() => { Filter = ""; });
+            NewBook = new RelayCommand(() => { App.NotifyColleagues(App.PROPERTY_CHANGE_NEW_BOOK.NEW_BOOK); });
+
+<<<<<<< HEAD
+            App.Register(this,App.PROPERTY_CHANGE.CATEGORIES_CHANGE, () => { Categories = new ObservableCollection<Category>(App.Model.Categories); });
+            App.Register(this, App.PROPERTY_CHANGE.BASKET_CONFIRMED, () => { Books = new ObservableCollection<Book>(App.Model.Books); });
+            App.Register(this, App.PROPERTY_CHANGE.RENTALS_CHANGED, () => { Books = new ObservableCollection<Book>(App.Model.Books); });
+=======
+            App.Register(this,App.PROPERTY_CHANGE_TABCONTENT.CATEGORIES_CHANGE, () => { Categories = new ObservableCollection<Category>(App.Model.Categories); });
+>>>>>>> avancements sur la fonctionalité new book
+        }
+        
+        private void ApplyFilterAction()
+        {          
+            if (CurrentCategory == null ) { 
+                var query = from m in App.Model.Books
+                        where
+                            m.Title.Contains(Filter) || m.Author.Contains(Filter)                             
+                        select m;
+
+                Books = new ObservableCollection<Book>(query);
+            }
+            else if(Filter==null || Filter=="")
+            {
+                var query = from m in App.Model.Books
+                            where
+                            (from c in m.Categories where c.CategoryId == currentCategory.CategoryId select c).Count() > 0
+                            select m;
+
+                Books = new ObservableCollection<Book>(query);
+            }
+            else
+            {                
+                var query = from m in App.Model.Books
+                            where
+                            (m.Title.Contains(Filter) || m.Author.Contains(Filter)) &&
+                            (from c in m.Categories where c.CategoryId == currentCategory.CategoryId select c).Count() > 0
+                            select m;
+
+                Books = new ObservableCollection<Book>(query);
+            }
+
+
+        }
+
+
+
+    }
+}
